@@ -2,7 +2,7 @@
 
 DATE=`date +%Y%m%d%H%M%S`
 
-cat ${DATE}>>update.md
+echo ${DATE}>>update.md
 
 git add .
 
