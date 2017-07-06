@@ -6,7 +6,7 @@ echo ${DATE}>>update.md
 
 git add .
 
-git commit -m"mod"
+git commit -m"update time"
 
 git push origin master
 
