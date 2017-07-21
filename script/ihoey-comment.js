@@ -19,6 +19,7 @@ var currentNode = '';
 
 ihoey.cm.init = function() {
     ihoey.cm.onAuthStateChanged();
+    ihoey.cm.savapageUrl();
 }
 
 var ref = wilddog.sync().ref('/blog/');
@@ -37,29 +38,33 @@ ihoey.cm.sendPost = function() {
 }
 
 //是否存在
-var urls = '';
+var flag = false;
 var currentNode = '';
 
 //存储页面信息
-ref.once('value').then(function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-        childData = childSnapshot.val();
-
-        console.log(url, childData.url)
-
-        if (url == childData.url) {
-            var urls = childData.url
-            currentNode = childSnapshot.key()
-            return
+ihoey.cm.savapageUrl = function () {
+    ref.once('value').then(function(snapshot) {
+        data = snapshot.val()
+        for (var childSnapshot in data) {
+            childData = data[childSnapshot];
+            if (url == childData.url) {
+                currentNode = childSnapshot
+                ihoey.cm.render();
+                flag = false
+                return
+            } else {
+                flag = true
+            }
+        }
+        if (flag == true) {
+            ihoey.cm.sendPost()
+            ihoey.cm.savapageUrl()
+        } else {
+            currentNode = currentNode;
         }
     })
-})
-
-if (urls == '') {
-    ihoey.cm.sendPost()
-} else {
-    currentNode = currentNode;
 }
+
 
 //存储消息
 ihoey.cm.sendMsg = function(time, content) {
@@ -225,6 +230,6 @@ ihoey.tool.palindrome = function(str) {
 }
 
 
-setTimeout(function() {
-    ihoey.cm.render();
-}, 1600);
+// setTimeout(function() {
+//     ihoey.cm.render();
+// }, 1600);
