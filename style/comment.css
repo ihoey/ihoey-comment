@@ -1,0 +1,72 @@
+
+#ihoey-thread #ihoey-reset .ihoey-comment-body img {
+    max-width: 100%;
+    vertical-align: text-bottom;
+    box-shadow: none
+}
+
+#ihoey-thread #ihoey-reset .ihoey-comment-body p {
+    font-size: 13px;
+    line-height: 1.5em;
+    margin: .5em 0;
+    word-wrap: break-word
+}
+
+#ihoey-thread #ihoey-reset .ihoey-comment-body {
+    padding-left: 60px
+}
+
+#ihoey-thread #ihoey-reset .ihoey-user-name {
+    color: #777;
+    font-size: 13px;
+    margin-right: 8px
+}
+
+
+#ihoey-thread #ihoey-reset #ihoey-user-card .ihoey-user-name {
+    vertical-align: top;
+    display: inline-block;
+    max-width: 8em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px
+}
+
+#ihoey-thread #ihoey-reset ul.ihoey-comments-tabs .ihoey-highlight {
+    margin: 0 2px 0 0
+}
+
+#ihoey-reset .ihoey-highlight {
+    color: #d32
+}
+
+#ihoey-thread #ihoey-reset .ihoey-comment-header {
+    padding-top: 1px
+}
+
+#ihoey-thread #ihoey-reset .ihoey-comment-footer {
+    line-height: 1.5em
+}
+
+#ihoey-thread #ihoey-reset .ihoey-comment-footer a {
+    margin: 0 6px 0 0;
+    padding: 0 6px 0 0
+}
+
+#ihoey-thread #ihoey-reset .ihoey-comment-actions a {
+    font-size: 12px;
+    color: #999
+}
+
+#ihoey-thread #ihoey-reset .ihoey-time {
+    font-size: 12px;
+    *font-size: 12px;
+    margin-right: 8px;
+    color: #999;
+    _zoom: 1
+}
+
+#ihoey-thread #ihoey-reset .ihoey-post-liked a.ihoey-post-likes {
+    color: #d32
+}

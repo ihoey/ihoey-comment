@@ -1,52 +1,3 @@
-/* 喜欢 */
-
-#ihoey-thread #ihoey-reset a.ihoey-like-thread-button {
-    background-image: none;
-    background-color: #fee2d3;
-    border: none;
-    text-shadow: none;
-    font-family: inherit;
-}
-
-#ihoey-thread #ihoey-reset .ihoey-comment-body p,
-#ihoey-thread #ihoey-reset .ihoey-textarea-wrapper textarea {
-    font-size: 1.15em;
-    color: #717171;
-    font-family: inherit;
-}
-
-#ihoey-thread #ihoey-reset .ihoey-highlight {
-    color: #ef7c6c !important;
-}
-
-#ihoey-thread #ihoey-reset .ihoey-user-name {
-    color: #ef7c6c !important;
-}
-
-#ihoey-reset {
-    font-weight: normal;
-    font-size: 13px;
-    font-size-adjust: none;
-    color: #333;
-    line-height: 1;
-    text-align: left
-}
-
-#ihoey-reset * {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box
-}
-
-#ihoey-reset input[type=button],
-#ihoey-reset input[type=submit],
-#ihoey-reset input[type=reset],
-#ihoey-reset button {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box
-}
-
 #ihoey-reset div,
 #ihoey-reset ul,
 #ihoey-reset ol,
@@ -126,9 +77,7 @@
     outline: none;
 }
 
-#ihoey-reset .ihoey-highlight {
-    color: #d32 !important
-}
+
 
 #ihoey-reset .ihoey-rounded {
     -webkit-border-radius: 3px;
@@ -369,13 +318,7 @@
     right: 0
 }
 
-#ihoey-reset #ihoey-ctx .ihoey-ctx-entry .ihoey-time {
-    font-size: 12px;
-    *font-size: 12px;
-    margin-left: 8px;
-    color: #999;
-    _zoom: 1
-}
+
 
 #ihoey-reset #ihoey-ctx .ihoey-ctx-entry .ihoey-ctx-content {
     position: relative;
@@ -384,40 +327,6 @@
     margin: 0;
     overflow: hidden;
     line-height: 1.5em
-}
-
-#ihoey-reset #ihoey-ctx .ihoey-ctx-entry:hover .ihoey-comment-actions {
-    display: block
-}
-
-#ihoey-reset #ihoey-ctx .ihoey-comment-actions {
-    bottom: 0;
-    right: 0;
-    line-height: 18px;
-    position: absolute;
-    display: none;
-    *display: block
-}
-
-#ihoey-reset #ihoey-ctx .ihoey-comment-actions a {
-    margin: 0 0 0 6px
-}
-
-#ihoey-reset.ihoey-touch #ihoey-ctx .ihoey-ctx-entry .ihoey-comment-actions {
-    display: block
-}
-
-#ihoey-reset .ihoey-comment-body #ihoey-ctx {
-    border-left: 3px solid #ccc;
-    background-color: rgba(0, 0, 0, 0.03)
-}
-
-#ihoey-reset.ihoey-no-opacity .ihoey-comment-body #ihoey-ctx {
-    background: #f8f8f8
-}
-
-#ihoey-reset .ihoey-dialog-body #ihoey-ctx .ihoey-ctx-entry:hover .ihoey-comment-actions {
-    display: none
 }
 
 #ihoey-thread {
@@ -454,9 +363,6 @@
     height: 0;
     font-size: 0 !important;
     line-height: 0 !important;
-    _border-right-color: #ffc0cb !important;
-    _border-left-color: #ffc0cb !important;
-    _filter: chroma(color=#ffc0cb) !important
 }
 
 #ihoey-thread #ihoey-reset .ihoey-arrow-down {
@@ -508,10 +414,6 @@
     text-shadow: 0 1px 0 #fff;
     background-color: #e0e0e0;
     background-repeat: no-repeat;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), color-stop(25%, #fff), to(#e0e0e0));
-    background-image: -webkit-linear-gradient(#fff, #fff 25%, #e0e0e0);
-    background-image: -moz-linear-gradient(top, #fff, #fff 25%, #e0e0e0);
-    background-image: -ms-linear-gradient(#fff, #fff 25%, #e0e0e0);
     background-image: linear-gradient(#fff, #fff 25%, #e0e0e0)
 }
 
@@ -862,8 +764,6 @@
 #ihoey-thread #ihoey-reset .ihoey-sync label {
     color: #777;
     cursor: pointer;
-    -webkit-transition: color .15s linear;
-    -moz-transition: color .15s linear;
     transition: color .15s linear
 }
 
@@ -891,16 +791,7 @@
     border: 1px solid #ccc;
     border-bottom-color: #aaa;
     border-bottom-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
     background-color: #e6e6e6;
-    background-repeat: no-repeat;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fcfcfc), color-stop(25%, #fcfcfc), to(#e6e6e6));
-    background-image: -webkit-linear-gradient(#fcfcfc, #fcfcfc 25%, #e6e6e6);
-    background-image: -moz-linear-gradient(top, #fcfcfc, #fcfcfc 25%, #e6e6e6);
-    background-image: -ms-linear-gradient(#fcfcfc, #fcfcfc 25%, #e6e6e6);
-    background-image: linear-gradient(#fcfcfc, #fcfcfc 25%, #e6e6e6);
-    -webkit-transition: all .15s linear;
-    -moz-transition: all .15s linear;
     transition: all .15s linear;
     box-shadow: inset 0 0 1px #fff
 }
@@ -945,9 +836,7 @@
     color: #d32
 }
 
-#ihoey-thread #ihoey-reset ul.ihoey-comments-tabs .ihoey-highlight {
-    margin: 0 2px 0 0
-}
+
 
 #ihoey-thread #ihoey-reset ul.ihoey-comments-tabs .ihoey-service-icon {
     vertical-align: middle;
@@ -1031,22 +920,11 @@
     display: inline-block
 }
 
-#ihoey-thread #ihoey-reset .ihoey-comment-body {
-    padding-left: 60px
-}
 
-#ihoey-thread #ihoey-reset .ihoey-comment-body p {
-    font-size: 13px;
-    line-height: 1.5em;
-    margin: .5em 0;
-    word-wrap: break-word
-}
 
-#ihoey-thread #ihoey-reset .ihoey-comment-body img {
-    max-width: 100%;
-    vertical-align: text-bottom;
-    box-shadow: none
-}
+
+
+
 
 #ihoey-thread #ihoey-reset .ihoey-comment-body embed {
     max-width: 100%
@@ -1140,15 +1018,7 @@
     height: 50px
 }
 
-#ihoey-thread #ihoey-reset #ihoey-user-card .ihoey-user-name {
-    vertical-align: top;
-    display: inline-block;
-    max-width: 8em;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-size: 14px
-}
+
 
 #ihoey-thread #ihoey-reset #ihoey-user-card .ihoey-user-card-meta {
     margin: 14px 0 0 62px
@@ -1164,109 +1034,13 @@
     margin-right: 3px
 }
 
-#ihoey-thread #ihoey-reset .ihoey-comment-header {
-    padding-top: 1px
-}
-
-#ihoey-thread #ihoey-reset .ihoey-comment-footer {
-    line-height: 1.5em
-}
-
-#ihoey-thread #ihoey-reset .ihoey-comment-footer a {
-    margin: 0 6px 0 0;
-    padding: 0 6px 0 0
-}
-
-#ihoey-thread #ihoey-reset .ihoey-comment-actions a {
-    font-size: 12px;
-    color: #999
-}
-
-#ihoey-thread #ihoey-reset .ihoey-comment-actions a .ihoey-icon {
-    position: relative;
-    top: -1px
-}
-
-#ihoey-thread #ihoey-reset .ihoey-user-name {
-    color: #777;
-    font-size: 13px;
-    margin-right: 8px
-}
-
 #ihoey-thread #ihoey-reset .ihoey-post-liked .ihoey-icon-like {
     background-position: 0 -130px
-}
-
-#ihoey-thread #ihoey-reset .ihoey-post-liked a.ihoey-post-likes {
-    color: #d32
-}
-
-#ihoey-thread #ihoey-reset .ihoey-reply-active {
-    display: block
-}
-
-#ihoey-thread #ihoey-reset .ihoey-reply-active .ihoey-post-reply {
-    color: #333
-}
-
-#ihoey-thread #ihoey-reset .ihoey-reply-active .ihoey-post-reply .ihoey-icon {
-    opacity: 1
 }
 
 #ihoey-thread #ihoey-reset .ihoey-post-delete,
 #ihoey-thread #ihoey-reset .ihoey-post-report {
     display: none
-}
-
-#ihoey-thread #ihoey-reset .ihoey-icon-heart {
-    width: 14px;
-    height: 13px;
-    background-position: 0 -130px
-}
-
-#ihoey-thread #ihoey-reset .ihoey-icon-settings {
-    width: 12px;
-    height: 12px;
-    margin: 3px 4px 0;
-    opacity: 1
-}
-
-#ihoey-thread #ihoey-reset .ihoey-icon-like {
-    width: 14px;
-    height: 13px;
-    background-position: 0 -117px
-}
-
-#ihoey-thread #ihoey-reset .ihoey-icon-share {
-    width: 18px;
-    height: 13px;
-    background-position: 0 -234px
-}
-
-#ihoey-thread #ihoey-reset .ihoey-icon-reply {
-    width: 18px;
-    height: 13px;
-    background-position: 0 -105px
-}
-
-#ihoey-thread #ihoey-reset .ihoey-icon-delete {
-    width: 13px;
-    height: 13px;
-    background-position: 0 -176px
-}
-
-#ihoey-thread #ihoey-reset .ihoey-icon-report {
-    width: 12px;
-    height: 12px;
-    background-position: 0 -189px
-}
-
-#ihoey-thread #ihoey-reset .ihoey-time {
-    font-size: 12px;
-    *font-size: 12px;
-    margin-right: 8px;
-    color: #999;
-    _zoom: 1
 }
 
 #ihoey-thread #ihoey-reset ul.ihoey-children {
@@ -1780,7 +1554,6 @@
     margin: 0 5px 0 0
 }
 
-//12
 #ihoey-thread #ihoey-reset .ihoey-powered-by {
     display: none;
 }
@@ -1853,144 +1626,7 @@
 #ihoey-recent-comments li.ihoey-comment:nth-of-type(1) {
     border: none !important;
 }
-
-
 /*多说附加样式结束*/
-
-#ihoey-thread #ihoey-reset .ihoey-textarea-wrapper textarea {
-    background: url(https://oisha19l0.qnssl.com/plbj.png) right no-repeat;
-}
-
-#ihoey-thread #ihoey-reset ul.ihoey-comments-tabs li.ihoey-tab a.ihoey-current {
-    border: 0px;
-    color: #6D6D6B;
-    text-shadow: none;
-    background: #F3F3F3
-}
-
-#ihoey-thread #ihoey-reset ul.ihoey-comments-tabs li.ihoey-tab a.ihoey-current:hover {
-    color: #696a52;
-    background: #F2F2F2
-}
-
-#ihoey-thread #ihoey-reset li.ihoey-post,
-#ihoey-thread #ihoey-reset #ihoey-hot-posts {
-    overflow: visible
-}
-
-.ihoey-post-button {
-    border-radius: 0 0 10px 0 !important;
-}
-
-.ihoey-post-toolbar {
-    border-radius: 0 0 10px 10px;
-}
-
-#ihoey-thread #ihoey-reset #ihoey-hot-posts {
-    border: 0
-}
-
-#ihoey-reset #ihoey-hot-posts .ihoey-gradient-bg {
-    background: #F2F2F2;
-    border-radius: 0 0 10px 10px !important;
-}
-
-#ihoey-reset .ihoey-post-options {
-    border-radius: 0 0 0 10px !important;
-}
-
-#ihoey-reset .ihoey-textarea-wrapper {
-    border-radius: 10px 10px 0 0;
-}
-
-
-/*最近访客*/
-
-#ihoey-recent-visitors {
-    height: 100%;
-}
-
-#ihoey-recent-visitors .ihoey-avatar {
-    display: inline;
-    padding: 0 !important;
-    margin: 9px !important;
-}
-
-#ihoey-recent-visitors .ihoey-avatar a {
-    border: none;
-}
-
-#ihoey-recent-visitors .ihoey-avatar img {
-    display: inline-block;
-    margin: auto;
-    max-width: 100%;
-    height: auto;
-    width: 54px;
-    height: 54px;
-    border-radius: 27px;
-    -webkit-border-radius: 27px;
-    -moz-border-radius: 27px;
-    -webkit-transition: 0.8s;
-    -webkit-transition: -webkit-transform 0.4s ease-out;
-    transition: transform 0.8s ease-out;
-    -moz-transition: -moz-transform 0.4s ease-out;
-}
-
-#ihoey-recent-visitors .ihoey-avatar img:hover {
-    box-shadow: 0 0 10px #fff;
-    -webkit-box-shadow: 0 0 10px #fff;
-    transform: rotateZ(720deg);
-    -webkit-transform: rotateZ(720deg);
-    -moz-transform: rotateZ(720deg);
-}
-
-
-/*多说弹出过期框*/
-
-#ihoey-wrapper #ihoey-reset .ihoey-logo {
-    display: none;
-    background: none;
-}
-
-#ihoey-wrapper #ihoey-reset .ihoey-dialog-footer {
-    padding: 12px 0px;
-}
-
-#ihoey-wrapper #ihoey-reset .ihoey-dialog-footer span {
-    color: rgba(255, 255, 255, 0);
-}
-
-#ihoey-wrapper #ihoey-reset .ihoey-dialog-footer:after {
-    content: '梦魇小栈';
-    color: #f00;
-    font-size: 14px;
-}
-
-#ihoey-notify {
-    background: #fff url(https://oisha19l0.qnssl.com/plbj.png) right no-repeat;
-    padding: 8px 21px;
-    transition: all .25s linear;
-}
-
-#ihoey-notify:hover {
-    background: #fff url(https://oisha19l0.qnssl.com/plbj.png) right no-repeat;
-    padding: 27px 21px;
-}
-
-#ihoey-notify #ihoey-reset a.ihoey-logo {
-    background: none;
-}
-
-#ihoey-notify #ihoey-reset ul.ihoey-notify-unread li a {
-    color: #ff03c9;
-}
-
-#ihoey-wrapper #ihoey-reset .ihoey-dialog-inner {
-    background: #fff url(https://oisha19l0.qnssl.com/sp161125_222742.png);
-    text-shadow: none;
-    background-size: 100%;
-}
-
 
 /*多说自定义评论表情样式*/
 
