@@ -26,7 +26,7 @@ ihoey.cm.init = function() {
 var ref = wilddog.sync().ref('/blog/');
 
 //客户端获取IP
-$.getScript('http://pv.sohu.com/cityjson?ie=utf-8', function(data, textStatus) {
+$.getScript('https://pv.sohu.com/cityjson?ie=utf-8', function(data, textStatus) {
     console.log(returnCitySN.cip, returnCitySN.cname)
 });
 
