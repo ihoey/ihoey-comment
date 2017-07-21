@@ -17,6 +17,7 @@ ihoey.tool = ihoey.tool || {};
 ihoey.user = {};
 var currentNode = '';
 
+// 初始化
 ihoey.cm.init = function() {
     ihoey.cm.onAuthStateChanged();
     ihoey.cm.savapageUrl();
@@ -24,10 +25,12 @@ ihoey.cm.init = function() {
 
 var ref = wilddog.sync().ref('/blog/');
 
+//客户端获取IP
 $.getScript('http://pv.sohu.com/cityjson?ie=utf-8', function(data, textStatus) {
     console.log(returnCitySN.cip, returnCitySN.cname)
 });
 
+// 存储页面信息
 ihoey.cm.sendPost = function() {
     ref.push({
         "title": title,
@@ -39,14 +42,15 @@ ihoey.cm.sendPost = function() {
 
 //是否存在
 var flag = false;
+// 当前页面
 var currentNode = '';
 
-//存储页面信息
-ihoey.cm.savapageUrl = function () {
+//判断是否存储页面信息
+ihoey.cm.savapageUrl = function() {
     ref.once('value').then(function(snapshot) {
-        data = snapshot.val()
+        var data = snapshot.val()
         for (var childSnapshot in data) {
-            childData = data[childSnapshot];
+            var childData = data[childSnapshot];
             if (url == childData.url) {
                 currentNode = childSnapshot
                 ihoey.cm.render();
@@ -65,7 +69,34 @@ ihoey.cm.savapageUrl = function () {
     })
 }
 
+//点击删除
+$('.ihoey-comments').on('click', '.ihoey-post .ihoey-reply', function() {
+    var dataCid = $(this).attr('data-cid');
+    ihoey.cm.delMsg(dataCid)
+});
 
+//删除
+ihoey.cm.delMsg = function(dataCid) {
+    ref.child(currentNode).child('comments').once('value').then(function(snapshot) {
+        var data = snapshot.val()
+        console.log(data)
+        for (var childSnapshot in data) {
+            var childData = data[childSnapshot];
+            console.log(dataCid == childData.ctime)
+            if (dataCid == childData.ctime) {
+                ref.child(currentNode).child('comments').child(childSnapshot).remove()
+                    .then(function() {
+                        console.info('remove node success.')
+                        ihoey.cm.render()
+                    })
+                    .catch(function(err) {
+                        console.info('remove node failed', err.code, err);
+                    });
+                return
+            }
+        }
+    })
+}
 //存储消息
 ihoey.cm.sendMsg = function(time, content) {
     ref.child(currentNode).child('comments').push({
@@ -151,33 +182,34 @@ $('.ihoey-post-button').click(function() {
         var time = new Date().format("yyyy年MM月dd日");
         var photoURL = $('.ihoey-replybox .ihoey-avatar img').attr('src');
         var nickName = $('.ihoey-visitor-name').text();
-        console.log(ex);
-        console.log(ex.find('.ihoey-avatar img'))
-        ex.find('.ihoey-avatar img').attr('src', photoURL);
-        ex.find('.ihoey-user-name').text(nickName);
-        ex.find('.ihoey-time').text(time);
-        ex.find('.ihoey-comment-body .text').text(content);
-        ex.show();
-        $('.ihoey-comments').append(ex);
         ihoey.cm.sendMsg(time, content);
+        ihoey.cm.render()
     } else {
         alert('你还没有输入内容！')
     }
 });
 
+//渲染
 ihoey.cm.render = function() {
     ref.child(currentNode).child('comments').once('value', function(snapshot) {
         var info = snapshot.val();
-        for (ele in info) {
-            console.log()
-            var ex = $('.ex li').clone();
-            ex.find('.ihoey-avatar img').attr('src', info[ele].user.avatar);
-            ex.find('.ihoey-user-name').text(info[ele].user.nickname);
-            ex.find('.ihoey-time').text(info[ele].ctime);
-            ex.find('.ihoey-comment-body .text').text(info[ele].content);
-            ex.show();
-            $('.ihoey-comments').append(ex);
+        if (info !== null) {
+            $('.ihoey-comments').empty()
+            for (ele in info) {
+                console.log()
+                var ex = $('.ex li').clone();
+                ex.find('.ihoey-avatar img').attr('src', info[ele].user.avatar);
+                ex.find('.ihoey-user-name').text(info[ele].user.nickname);
+                ex.find('.ihoey-time').text(info[ele].ctime);
+                ex.find('.ihoey-comment-body .text').text(info[ele].content);
+                ex.find('.ihoey-reply').attr('data-cid', info[ele].ctime);
+                ex.show()
+                $('.ihoey-comments').append(ex);
+            }
+        } else {
+            $('.ihoey-comments').empty()
         }
+
     });
 }
 
@@ -228,8 +260,3 @@ ihoey.tool.palindrome = function(str) {
     var newStr = str.toLowerCase().replace(/[^A-Za-z0-9]/g, "");
     return newStr;
 }
-
-
-// setTimeout(function() {
-//     ihoey.cm.render();
-// }, 1600);
