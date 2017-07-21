@@ -1,7 +1,7 @@
 var ihoey = ihoey || {};
 
-var host = window.location.hostname,
-    url = window.location.host + window.location.pathname,
+var host = window.document.location.pathname,
+    url = window.document.location.pathname,
     title = window.document.title,
     config = {
         authDomain: "ihoey.wilddog.com",
@@ -14,20 +14,80 @@ var auth = wilddog.auth();
 
 ihoey.cm = ihoey.cm || {};
 ihoey.tool = ihoey.tool || {};
+ihoey.user = {};
+var currentNode = '';
 
 ihoey.cm.init = function() {
     ihoey.cm.onAuthStateChanged();
 }
 
-// var ref = wilddog.sync().ref('/' + ihoey.tool.palindrome(host));
-// ref.set({
-//     "full_name": "Steve Jobs",
-//     "gender": "male"
-// });
+var ref = wilddog.sync().ref('/blog/');
+
+$.getScript('http://pv.sohu.com/cityjson?ie=utf-8', function(data, textStatus) {
+    console.log(returnCitySN.cip, returnCitySN.cname)
+});
+
+ihoey.cm.sendPost = function() {
+    ref.push({
+        "title": title,
+        "url": url,
+        "sourceId": url,
+        "ctime": new Date().getTime()
+    });
+}
+
+//是否存在
+var urls = '';
+var currentNode = '';
+
+//存储页面信息
+ref.once('value').then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+        childData = childSnapshot.val();
+
+        console.log(url, childData.url)
+
+        if (url == childData.url) {
+            var urls = childData.url
+            currentNode = childSnapshot.key()
+            return
+        }
+    })
+})
+
+if (urls == '') {
+    ihoey.cm.sendPost()
+} else {
+    currentNode = currentNode;
+}
+
+//存储消息
+ihoey.cm.sendMsg = function(time, content) {
+    ref.child(currentNode).child('comments').push({
+        "cid": "2661911273",
+        "ctime": new Date().getTime(),
+        "content": content,
+        "pid": "0",
+        "ip": returnCitySN.cip,
+        "port": 0,
+        "sc": "",
+        "vote": 0,
+        "against": 0,
+        "anonymous": ihoey.user.isAnonymous,
+        "user": {
+            "userId": ihoey.user.uid,
+            "nickname": ihoey.user.displayName || '梦魇小栈',
+            "avatar": ihoey.user.photoURL || 'https://sponsor.ihoey.com/images/like.svg',
+            "anonymous": ihoey.user.isAnonymous
+        }
+    });
+}
 
 //判断登录
 ihoey.cm.onAuthStateChanged = function(user) {
     auth.onAuthStateChanged(function(user) {
+        ihoey.user = user
+        console.log(user, 2)
         if (user != null) {
             $('.logup').hide();
             if (user.providerId != 'anonymous') {
@@ -55,6 +115,7 @@ ihoey.cm.onAuthStateChanged = function(user) {
             // QQ登录
             $('.qq').click(function() {
                 auth.signInWithRedirect(provider).then(function(user) {
+                    console.log(user);
                     console.log('登录了')
                 }).catch(function(error) {
                     // 错误处理
@@ -80,7 +141,7 @@ ihoey.cm.onAuthStateChanged = function(user) {
 $('.ihoey-post-button').click(function() {
     if ($('.ihoey-textarea-wrapper textarea').val() != '') {
         var ex = $('.ex li').clone();
-        var text = $('textarea').val();
+        var content = $('textarea').val();
         $('textarea').val('');
         var time = new Date().format("yyyy年MM月dd日");
         var photoURL = $('.ihoey-replybox .ihoey-avatar img').attr('src');
@@ -90,15 +151,32 @@ $('.ihoey-post-button').click(function() {
         ex.find('.ihoey-avatar img').attr('src', photoURL);
         ex.find('.ihoey-user-name').text(nickName);
         ex.find('.ihoey-time').text(time);
-        ex.find('.ihoey-comment-body .text').text(text);
+        ex.find('.ihoey-comment-body .text').text(content);
         ex.show();
         $('.ihoey-comments').append(ex);
+        ihoey.cm.sendMsg(time, content);
     } else {
         alert('你还没有输入内容！')
     }
 });
 
+ihoey.cm.render = function() {
+    ref.child(currentNode).child('comments').once('value', function(snapshot) {
+        var info = snapshot.val();
+        for (ele in info) {
+            console.log()
+            var ex = $('.ex li').clone();
+            ex.find('.ihoey-avatar img').attr('src', info[ele].user.avatar);
+            ex.find('.ihoey-user-name').text(info[ele].user.nickname);
+            ex.find('.ihoey-time').text(info[ele].ctime);
+            ex.find('.ihoey-comment-body .text').text(info[ele].content);
+            ex.show();
+            $('.ihoey-comments').append(ex);
+        }
+    });
+}
 
+//格式化时间
 Date.prototype.format = function(fmt) {
     var o = {
         "M+": this.getMonth() + 1,
@@ -111,11 +189,11 @@ Date.prototype.format = function(fmt) {
         //小时
         "m+": this.getMinutes(),
         //分
-        "s+": this.getSeconihoey(),
+        "s+": this.getSeconds(),
         //秒
         "q+": Math.floor((this.getMonth() + 3) / 3),
         //季度
-        "S": this.getMilliseconihoey() //毫秒
+        "S": this.getMilliseconds() //毫秒
     };
     var week = {
         "0": "\u65e5",
@@ -145,3 +223,8 @@ ihoey.tool.palindrome = function(str) {
     var newStr = str.toLowerCase().replace(/[^A-Za-z0-9]/g, "");
     return newStr;
 }
+
+
+setTimeout(function() {
+    ihoey.cm.render();
+}, 1600);
