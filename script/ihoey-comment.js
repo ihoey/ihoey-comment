@@ -9,7 +9,7 @@ var host = window.document.location.pathname,
     };
 wilddog.initializeApp(config);
 
-var provider = new wilddog.auth.QQAuthProvider();
+
 var auth = wilddog.auth();
 
 ihoey.cm = ihoey.cm || {};
@@ -52,7 +52,7 @@ ihoey.cm.savapageUrl = function() {
         for (var childSnapshot in data) {
             var childData = data[childSnapshot];
             if (url == childData.url) {
-                $('.ihoey-highlight').text(childData.vote)
+                $('.ihoey-meta .like-num').text(childData.vote)
                 $('.ihoey-thread').attr({ 'data-url': childData.url, 'data-title': title });
                 currentNode = childSnapshot
                 ihoey.cm.render();
@@ -120,7 +120,7 @@ ihoey.cm.sendMsg = function(content) {
         "user": {
             "userId": ihoey.user.uid,
             "nickname": ihoey.user.displayName || '梦魇小栈',
-            "avatar": ihoey.user.photoURL || 'https://sponsor.ihoey.com/images/like.svg',
+            "avatar": ihoey.user.photoURL.replace('http','https') || 'https://sponsor.ihoey.com/images/like.svg',
             "anonymous": ihoey.user.isAnonymous || false,
             "url": ihoey.user.url || 'https://blog.ihoey.com'
         }
@@ -158,6 +158,18 @@ ihoey.cm.onAuthStateChanged = function(user) {
             // 直接使用 signInWithRedirect 会造成重复登录。
             // QQ登录
             $('.qq').click(function() {
+                var provider = new wilddog.auth.QQAuthProvider();
+                auth.signInWithRedirect(provider).then(function(user) {
+                    console.log(user);
+                    console.log('登录了')
+                }).catch(function(error) {
+                    // 错误处理
+                    console.log(error);
+                    // ...
+                })
+            });
+            $('.wb').click(function() {
+                var provider = new wilddog.auth.WeiboAuthProvider();
                 auth.signInWithRedirect(provider).then(function(user) {
                     console.log(user);
                     console.log('登录了')
@@ -303,7 +315,7 @@ ihoey.cm.likes = function(id) {
     //这里是你自己的逻辑 通过ajax保存到数据库的数值
     ref.child(currentNode).child('vote').once('value').then(function(snapshot) {
         ref.child(currentNode).child('vote').set(Number(snapshot.val()) + 1)
-        $('.ihoey-highlight').text(Number(snapshot.val()) + 1)
+        $('.ihoey-meta .like-num').text(Number(snapshot.val()) + 1)
     })
 }
 
