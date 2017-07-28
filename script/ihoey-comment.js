@@ -21,14 +21,13 @@ var currentNode = '';
 ihoey.cm.init = function() {
     ihoey.cm.onAuthStateChanged();
     ihoey.cm.savapageUrl();
+    ihoey.cm.isLikes(url);
 }
 
 var ref = wilddog.sync().ref('/blog/');
 
 //客户端获取IP
-$.getScript('https://pv.sohu.com/cityjson?ie=utf-8', function(data, textStatus) {
-    console.log(returnCitySN.cip, returnCitySN.cname)
-});
+$.getScript('https://pv.sohu.com/cityjson?ie=utf-8', function(data, textStatus) {});
 
 // 存储页面信息
 ihoey.cm.sendPost = function() {
@@ -36,7 +35,8 @@ ihoey.cm.sendPost = function() {
         "title": title,
         "url": url,
         "sourceId": url,
-        "ctime": new Date().getTime()
+        "ctime": new Date().getTime(),
+        "vote": 0
     });
 }
 
@@ -52,6 +52,8 @@ ihoey.cm.savapageUrl = function() {
         for (var childSnapshot in data) {
             var childData = data[childSnapshot];
             if (url == childData.url) {
+                $('.ihoey-highlight').text(childData.vote)
+                $('.ihoey-thread').attr({ 'data-url': childData.url, 'data-title': title });
                 currentNode = childSnapshot
                 ihoey.cm.render();
                 flag = false
@@ -65,14 +67,20 @@ ihoey.cm.savapageUrl = function() {
             ihoey.cm.savapageUrl()
         } else {
             currentNode = currentNode;
+
         }
     })
 }
 
 //点击删除
-$('.ihoey-comments').on('click', '.ihoey-post-dels', function() {
+$('.ihoey-comments').on('click', '.ihoey-post .ihoey-post-dels', function() {
     var dataCid = $(this).attr('data-cid');
     ihoey.cm.delMsg(dataCid)
+});
+
+//点击喜欢
+$('.ihoey-thread-liked').on('click', function() {
+    ihoey.cm.likes(url)
 });
 
 //删除
@@ -82,8 +90,7 @@ ihoey.cm.delMsg = function(dataCid) {
         console.log(data)
         for (var childSnapshot in data) {
             var childData = data[childSnapshot];
-            console.log(dataCid == childData.ctime)
-            if (dataCid == childData.ctime) {
+            if (dataCid == childData.cid) {
                 ref.child(currentNode).child('comments').child(childSnapshot).remove()
                     .then(function() {
                         console.info('remove node success.')
@@ -100,7 +107,7 @@ ihoey.cm.delMsg = function(dataCid) {
 //存储消息
 ihoey.cm.sendMsg = function(content) {
     ref.child(currentNode).child('comments').push({
-        "cid": "2661911273",
+        "cid": (Math.random() * Date.now()).toFixed(0),
         "ctime": new Date().getTime(),
         "content": content,
         "pid": "0",
@@ -114,7 +121,8 @@ ihoey.cm.sendMsg = function(content) {
             "userId": ihoey.user.uid,
             "nickname": ihoey.user.displayName || '梦魇小栈',
             "avatar": ihoey.user.photoURL || 'https://sponsor.ihoey.com/images/like.svg',
-            "anonymous": ihoey.user.isAnonymous
+            "anonymous": ihoey.user.isAnonymous || false,
+            "url": ihoey.user.url || 'https://blog.ihoey.com'
         }
     });
 }
@@ -127,10 +135,10 @@ ihoey.cm.onAuthStateChanged = function(user) {
         if (user != null) {
             $('.logup').hide();
             if (user.providerId != 'anonymous') {
-                $('.ihoey-visitor-name').text(user.displayName);
+                $('.ihoey-visitor-name').text(user.displayName).attr('data-uid',user.uid);
                 $('.ihoey-avatar img').attr('src', user.photoURL);
             } else {
-                $('.ihoey-visitor-name').text('匿名用户');
+                $('.ihoey-visitor-name').text('匿名用户').attr('data-uid',user.uid);
                 $('.ihoey-avatar img').attr('src', 'https://sponsor.ihoey.com/images/like.svg');
             };
             $('.logout').show();
@@ -149,11 +157,10 @@ ihoey.cm.onAuthStateChanged = function(user) {
             $('.logout').hide();
             // 直接使用 signInWithRedirect 会造成重复登录。
             // QQ登录
-            console.log(user)
             $('.qq').click(function() {
                 auth.signInWithRedirect(provider).then(function(user) {
                     console.log(user);
-                    console.log('success get user')
+                    console.log('登录了')
                 }).catch(function(error) {
                     // 错误处理
                     console.log(error);
@@ -194,20 +201,23 @@ ihoey.cm.render = function() {
     ref.child(currentNode).child('comments').once('value', function(snapshot) {
         var info = snapshot.val();
         if (info !== null) {
-            $('.ihoey-comments').empty()
+            $('.ihoey-comments .ihoey-post').remove()
             for (ele in info) {
-                console.log()
                 var ex = $('.ex li').clone();
-                ex.find('.ihoey-avatar img').attr('src', info[ele].user.avatar);
-                ex.find('.ihoey-user-name').text(info[ele].user.nickname);
-                ex.find('.ihoey-time').text(new Date(info[ele].ctime).format("yyyy年MM月dd日"));
+                ex.find('.ihoey-avatar img').attr('src', info[ele].user.avatar).attr('alt', info[ele].user.nickname);
+                ex.find('.ihoey-user-name').text(info[ele].user.nickname).attr('href', info[ele].user.url || 'https://www.ihoey.com');
+                ex.find('.ihoey-time').text(new Date(info[ele].ctime).format("yyyy年MM月dd日")).attr('title', new Date(info[ele].ctime).format("yyyy年MM月dd日 HH:mm:ss"));
                 ex.find('.ihoey-comment-body .text').text(info[ele].content);
-                ex.find('.ihoey-post-dels').attr('data-cid', info[ele].ctime);
+                if (info[ele].user.userId == $('.ihoey-visitor-name').attr('data-uid')) {
+                    ex.find('.ihoey-post-dels').attr('data-cid', info[ele].cid).show();
+                }else{
+                    ex.find('.ihoey-post-dels').hide();
+                }
                 ex.show()
-                $('.ihoey-comments').append(ex);
+                $('.ihoey-comments-content').after(ex);
             }
         } else {
-            $('.ihoey-comments').empty()
+            $('.ihoey-comments .ihoey-post').remove()
         }
 
     });
@@ -259,4 +269,51 @@ Date.prototype.format = function(fmt) {
 ihoey.tool.palindrome = function(str) {
     var newStr = str.toLowerCase().replace(/[^A-Za-z0-9]/g, "");
     return newStr;
+}
+
+//设置cookie
+ihoey.tool.setCookie = function(key, value) {
+    document.cookie = key + "=" + escape(value);
+}
+
+//获取cookie的值
+ihoey.tool.getCookie = function(key) {
+    if (document.cookie.length) {
+        var cookies = ' ' + document.cookie;
+        var start = cookies.indexOf(' ' + key + '=');
+        if (start == -1) { return null; }
+        var end = cookies.indexOf(";", start);
+        if (end == -1) { end = cookies.length; }
+        end -= start;
+        var cookie = cookies.substr(start, end);
+        return unescape(cookie.substr(cookie.indexOf('=') + 1, cookie.length - cookie.indexOf('=') + 1));
+    } else { return null; }
+}
+
+//根据点击传进来的id
+ihoey.cm.likes = function(id) {
+    if (ihoey.tool.getCookie(id) == null) {
+        ihoey.tool.setCookie(id, id);
+    } else {
+        if (ihoey.tool.getCookie(id) == id) {
+            $('.ihoey-thread-liked .ihoey-thread-like-text').text('已喜欢')
+            return;
+        }
+    }
+    //这里是你自己的逻辑 通过ajax保存到数据库的数值
+    ref.child(currentNode).child('vote').once('value').then(function(snapshot) {
+        ref.child(currentNode).child('vote').set(Number(snapshot.val()) + 1)
+        $('.ihoey-highlight').text(Number(snapshot.val()) + 1)
+    })
+}
+
+//根据点击传进来的id
+ihoey.cm.isLikes = function(id) {
+    if (ihoey.tool.getCookie(id) == null) {
+        $('.ihoey-thread-liked .ihoey-thread-like-text').text('喜欢')
+    } else {
+        if (ihoey.tool.getCookie(id) == id) {
+            $('.ihoey-thread-liked .ihoey-thread-like-text').text('已喜欢')
+        }
+    }
 }

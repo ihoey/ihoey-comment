@@ -439,10 +439,6 @@
     display: inline
 }
 
-#ihoey-thread #ihoey-reset a.ihoey-thread-liked:hover .ihoey-thread-like-text {
-    display: none
-}
-
 #ihoey-thread #ihoey-reset #ihoey-hot-posts {
     border: 1px solid #ccc;
     overflow: hidden;
