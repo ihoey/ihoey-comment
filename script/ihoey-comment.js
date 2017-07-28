@@ -70,7 +70,7 @@ ihoey.cm.savapageUrl = function() {
 }
 
 //点击删除
-$('.ihoey-comments').on('click', '.ihoey-post .ihoey-reply', function() {
+$('.ihoey-comments').on('click', '.ihoey-post-dels', function() {
     var dataCid = $(this).attr('data-cid');
     ihoey.cm.delMsg(dataCid)
 });
@@ -98,7 +98,7 @@ ihoey.cm.delMsg = function(dataCid) {
     })
 }
 //存储消息
-ihoey.cm.sendMsg = function(time, content) {
+ihoey.cm.sendMsg = function(content) {
     ref.child(currentNode).child('comments').push({
         "cid": "2661911273",
         "ctime": new Date().getTime(),
@@ -149,10 +149,11 @@ ihoey.cm.onAuthStateChanged = function(user) {
             $('.logout').hide();
             // 直接使用 signInWithRedirect 会造成重复登录。
             // QQ登录
+            console.log(user)
             $('.qq').click(function() {
                 auth.signInWithRedirect(provider).then(function(user) {
                     console.log(user);
-                    console.log('登录了')
+                    console.log('success get user')
                 }).catch(function(error) {
                     // 错误处理
                     console.log(error);
@@ -179,10 +180,9 @@ $('.ihoey-post-button').click(function() {
         var ex = $('.ex li').clone();
         var content = $('textarea').val();
         $('textarea').val('');
-        var time = new Date().format("yyyy年MM月dd日");
         var photoURL = $('.ihoey-replybox .ihoey-avatar img').attr('src');
         var nickName = $('.ihoey-visitor-name').text();
-        ihoey.cm.sendMsg(time, content);
+        ihoey.cm.sendMsg(content);
         ihoey.cm.render()
     } else {
         alert('你还没有输入内容！')
@@ -200,9 +200,9 @@ ihoey.cm.render = function() {
                 var ex = $('.ex li').clone();
                 ex.find('.ihoey-avatar img').attr('src', info[ele].user.avatar);
                 ex.find('.ihoey-user-name').text(info[ele].user.nickname);
-                ex.find('.ihoey-time').text(info[ele].ctime);
+                ex.find('.ihoey-time').text(new Date(info[ele].ctime).format("yyyy年MM月dd日"));
                 ex.find('.ihoey-comment-body .text').text(info[ele].content);
-                ex.find('.ihoey-reply').attr('data-cid', info[ele].ctime);
+                ex.find('.ihoey-post-dels').attr('data-cid', info[ele].ctime);
                 ex.show()
                 $('.ihoey-comments').append(ex);
             }
